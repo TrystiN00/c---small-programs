@@ -1,0 +1,77 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+bool czyNapotkanoZnakNowegoWiersza(fstream& plik)
+{
+    char cZnak;
+    for (;; ) //nieskończona pętla
+    {
+        plik.clear();
+        cZnak = plik.peek(); //sprawdzamy jaki kolejny znak zostanie zwrócony przez operację odczytu
+        if (plik.fail())
+            return false; //wystąpił błąd odczytu danych
+
+        if (!isspace(cZnak))
+            return false; //pobrany znak nie jest białym znakiem
+
+        plik.get(cZnak); //odczytujemy biały znak z pliku
+        if (plik.fail())
+            return false; //wystąpił błąd odczytu danych
+
+        if (cZnak == '\n')
+            return true;
+
+    } //for
+}
+void Wczytaj(string dane)
+{
+    int suma = 0;
+    int e;
+    int numerLinii = 1;
+    fstream plik;
+    plik.open(dane.c_str());
+    while (!plik.eof())
+    {
+        plik >> e;
+        if (plik.fail())
+        {
+            plik.clear();
+            cout << "ERROR w linii nr: " << numerLinii <<endl;
+            plik.ignore(3, '\n');
+            suma = 0;
+            numerLinii++;
+        }
+        else
+        {
+        suma += e;
+
+
+        if (czyNapotkanoZnakNowegoWiersza(plik))
+        {
+            numerLinii++;
+            cout << suma <<endl;
+            suma = 0;
+        }
+        }
+    }
+
+
+
+
+    plik.close();
+}
+
+
+
+int main()
+{
+    Wczytaj("dane.txt");
+
+
+
+
+
+    return 0;
+}
