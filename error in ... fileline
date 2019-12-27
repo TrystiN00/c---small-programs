@@ -39,7 +39,7 @@ void Wczytaj(string dane)
         {
             plik.clear();
             cout << "ERROR w linii nr: " << numerLinii <<endl;
-            plik.ignore(3, '\n');
+            plik.ignore(100000, '\n');
             suma = 0;
             numerLinii++;
         }
